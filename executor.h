@@ -2,25 +2,26 @@
 #define __EXECUTOR_H__
 
 #include <boost/thread.hpp>
+#include <boost/shared_ptr.hpp>
 
 namespace sinofool {
-	class Runnable {
-	protected:
-		virtual void run() = 0;
-	};
-	typedef boost::shared_ptr<Runnable> RunnablePtr;
 
-	class Future {
-	public:
-		virtual int handle() = 0;
-	};
-	typedef boost::shared_ptr<Future> FuturePtr;
-
+	template <typename T>
 	class Executor {
 	public:
-		FuturePtr execute(const RunnablePtr& task);
+		Executor() {
+			_threads.push_back(ThreadPtr(new boost::thread(&Executor::_exec, this)));
+		}
+		void execute(const T& task) {
+			task->run();
+		}
+		static void _exec(Executor* exec) {
+			std::cout << "I am running" << std::endl;
+		}
 	private:
-		std::list<RunnablePtr> tasks;
+		std::list<T> _tasks;
+		typedef boost::shared_ptr<boost::thread> ThreadPtr;
+		std::list<ThreadPtr> _threads;
 
 	};
 }
