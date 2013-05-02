@@ -12,9 +12,13 @@
 
 using namespace sinofool;
 
-int main(void) {
-	HttpUtil http;
-	http.sendRequest("http://www.icbc.com.cn/");
+int main() {
+	HttpUtil http(10);
+	http.sendRequest("http://www.ea.com/");
+	http.sendRequest("http://www.ea.com/");
+	sleep(1);
+	http.sendRequest("http://www.ea.com/");
+	http.close();
 
 	return EXIT_SUCCESS;
 }

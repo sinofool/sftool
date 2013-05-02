@@ -8,8 +8,12 @@ namespace sinofool {
 void HttpUtil::sendRequest(const std::string& url) {
 	HttpRequestPtr req = HttpRequestPtr(new HttpRequest(url));
 	OutputTaskPtr task = OutputTaskPtr(new OutputTask(req));
-	exec.execute(task);
-	// TODO make it background.
+	_exec.execute(task);
+}
+
+void HttpUtil::close() {
+	_exec.shutdown();
+	_exec.join();
 }
 
 void HttpRequest::doRequest() {

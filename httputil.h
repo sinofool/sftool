@@ -38,9 +38,13 @@ typedef boost::shared_ptr<OutputTask> OutputTaskPtr;
 
 class HttpUtil {
 public:
+	HttpUtil(int size) :
+			_exec(size) {
+	}
 	void sendRequest(const std::string& url);
+	void close();
 private:
-	Executor<OutputTaskPtr> exec;
+	Executor<OutputTask> _exec;
 };
 
 }

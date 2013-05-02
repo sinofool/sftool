@@ -5,7 +5,7 @@ CXXFLAGS =	-I$(BOOST_HOME)/include -I$(LIBCURL_HOME)/include -O2 -g -Wall -fmess
 
 OBJS =		sftool.o httputil.o
 
-LIBS =	-L$(BOOST_HOME)/lib -lboost_thread -lboost_system -L$(LIBCURL_HOME)/lib -lcurl -lssl -lcrypto -lldap -lz
+LIBS =	-L$(BOOST_HOME)/lib -lboost_thread -lboost_system -lpthread -L$(LIBCURL_HOME)/lib -lcurl -lssl -lcrypto -lldap -lz
 
 TARGET =	sftool
 
