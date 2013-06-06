@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "httputil.h"
 #include <curl/curl.h>
 #include <curl/easy.h>

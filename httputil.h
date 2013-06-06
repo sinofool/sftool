@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include <iostream>
 #include <set>
 #include <boost/shared_ptr.hpp>

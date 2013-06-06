@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #ifndef __EXECUTOR_H__
 #define __EXECUTOR_H__
 
@@ -6,6 +8,10 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/lockfree/queue.hpp>
 #include <boost/atomic.hpp>
+
+namespace boost {
+	struct thread::dummy {};
+}
 
 namespace sinofool {
 
