@@ -13,11 +13,13 @@
 using namespace sinofool;
 
 int main() {
-	HttpUtil http(10);
-	http.sendRequest("http://www.ea.com/");
-	http.sendRequest("http://www.ea.com/");
+	http_util http(10);
+	std::map<std::string, std::string> headers;
+	std::string content = "HelloPost";
+	http.post_request("http://10.88.73.52/dump.php", headers, content);
+	http.post_request("http://10.88.73.52/dump.php", headers, content);
 	sleep(1);
-	http.sendRequest("http://www.ea.com/");
+	http.post_request("http://10.88.73.52/dump.php", headers, content);
 	http.close();
 
 	return EXIT_SUCCESS;

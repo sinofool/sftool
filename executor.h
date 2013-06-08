@@ -10,16 +10,16 @@
 namespace sinofool {
 
 template<typename T>
-class Executor {
+class executor {
 public:
 	typedef boost::shared_ptr<T> TaskPtr;
 	typedef boost::shared_ptr<boost::thread> ThreadPtr;
 
-	Executor(int size) {
+	executor(int size) {
 		_running = true;
 		for (int i = 0; i < size; ++i) {
 			_threads.push_back(
-					ThreadPtr(new boost::thread(&Executor::_exec, this)));
+					ThreadPtr(new boost::thread(&executor::_exec, this)));
 		}
 	}
 	void execute(const boost::shared_ptr<T>& task) {
@@ -36,7 +36,7 @@ public:
 		}
 		std::cout << "Joined all threads." << std::endl;
 	}
-	static void _exec(Executor* exec) {
+	static void _exec(executor* exec) {
 		while (true) {
 			TaskPtr task = exec->pull();
 			if (task) {
