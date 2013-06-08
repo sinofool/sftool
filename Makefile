@@ -19,4 +19,4 @@ $(ARCHIVE):	$(OBJS)
 	$(AR) -cr $(ARCHIVE) $(OBJS)
 
 clean:
-	rm -f libsftool.o $(OBJS) $(TARGET)
+	rm -f $(OBJS) $(TARGET) $(ARCHIVE)

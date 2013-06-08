@@ -16,7 +16,7 @@ public:
 	http_request(const std::string& url, HTTP_REQUEST_TYPE type,
 			const std::map<std::string, std::string>& headers,
 			const std::string& post_content) :
-			_url(url), _type(type), _post_content(post_content) {
+			_url(url), _type(type), _post_content(post_content), _post_pos(0) {
 		for (std::map<std::string, std::string>::const_iterator it =
 				headers.begin(); it != headers.end(); ++it) {
 			_headers.push_back(it->first + ": " + it->second);
@@ -37,7 +37,7 @@ private:
 	HTTP_REQUEST_TYPE _type;
 	std::list<std::string> _headers;
 	std::string _post_content;
-
+	size_t _post_pos;
 	std::string _html;
 
 };
@@ -72,3 +72,4 @@ typedef boost::shared_ptr<http_util> http_util_ptr;
 
 }
 #endif
+

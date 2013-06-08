@@ -15,7 +15,7 @@ using namespace sinofool;
 int main() {
 	http_util http(10);
 	std::map<std::string, std::string> headers;
-	std::string content = "HelloPost";
+	std::string content = "HelloPost=1";
 	http.post_request("http://10.88.73.52/dump.php", headers, content);
 	http.post_request("http://10.88.73.52/dump.php", headers, content);
 	sleep(1);

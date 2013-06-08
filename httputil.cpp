@@ -34,6 +34,7 @@ void http_request::do_request() {
 	if (!curl) {
 		return;
 	}
+	curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 	curl_easy_setopt(curl, CURLOPT_URL, _url.c_str());
 	for (std::list<std::string>::iterator it = _headers.begin();
 			it != _headers.end(); ++it) {
@@ -43,6 +44,7 @@ void http_request::do_request() {
 	if (_type == POST) {
 		curl_easy_setopt(curl, CURLOPT_POST, 1L);
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, _post_content.length());
+		// curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, _post_content.c_str());
 		curl_easy_setopt(curl, CURLOPT_READFUNCTION, &http_request::read_data);
 		curl_easy_setopt(curl, CURLOPT_READDATA, this);
 	}
@@ -77,16 +79,21 @@ size_t http_request::read_data(void* ptr, size_t size, size_t nmemb,
 size_t http_request::post_content(void* ptr, size_t size, size_t nmemb) {
 	size_t max_size = size * nmemb;
 	size_t content_size = _post_content.length();
+	if (_post_pos >= content_size) {
+		return 0;
+	}
 	size_t cpsize = max_size > content_size ? content_size : max_size;
 	std::cout << "max: " << max_size << " content: " << content_size
 			<< " cpsize: " << cpsize << std::endl;
 	memcpy(ptr, _post_content.c_str(), cpsize);
+	_post_pos += cpsize;
 	return cpsize;
 }
 
 void async_http_task::run() {
 	_request->do_request();
-	std::cout << "Async HTTP Task returns: " << _request->get_response()
+	std::cout << "Async HTTP Task returns: \n" << _request->get_response()
 			<< std::endl;
 }
 }
+
