@@ -1,31 +1,9 @@
-#include "httputil.h"
+#include "http_request.h"
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include <iostream>
-#include "executor.h"
 
 namespace sinofool {
-void http_util::get_request(const std::string& url,
-		const std::map<std::string, std::string>& headers) {
-	http_request_ptr req = http_request_ptr(
-			new http_request(url, GET, headers, NULL));
-	async_http_task_ptr task = async_http_task_ptr(new async_http_task(req));
-	_exec.execute(task);
-}
-
-void http_util::post_request(const std::string& url,
-		const std::map<std::string, std::string>& headers,
-		const std::string& post_content) {
-	http_request_ptr req = http_request_ptr(
-			new http_request(url, POST, headers, post_content));
-	async_http_task_ptr task = async_http_task_ptr(new async_http_task(req));
-	_exec.execute(task);
-}
-
-void http_util::close() {
-	_exec.shutdown();
-	_exec.join();
-}
 
 void http_request::do_request() {
 	CURL* curl = curl_easy_init();
@@ -89,11 +67,14 @@ size_t http_request::post_content(void* ptr, size_t size, size_t nmemb) {
 	_post_pos += cpsize;
 	return cpsize;
 }
-
-void async_http_task::run() {
-	_request->do_request();
-	std::cout << "Async HTTP Task returns: \n" << _request->get_response()
-			<< std::endl;
+ 
+boost::shared_ptr<string_http_handler> string_http_handler::create() {
+    return boost::shared_ptr<string_http_handler>(new string_http_handler);
 }
+
+void string_http_handler::handle(const std::string& response) {
+    std::cout << "SHH: " << response << std::endl;
+}
+
 }
 

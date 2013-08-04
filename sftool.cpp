@@ -8,12 +8,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "httputil.h"
+#include "httputil.hpp"
+#include "http_request.h"
 
 using namespace sinofool;
 
 int main() {
-	http_util http(10);
+	http_util<string_http_handler> http(10);
 	std::map<std::string, std::string> headers;
 	std::string content = "HelloPost=1";
 	http.post_request("http://10.88.73.52/dump.php", headers, content);

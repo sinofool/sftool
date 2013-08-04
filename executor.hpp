@@ -1,13 +1,14 @@
 #ifndef __EXECUTOR_H__
 #define __EXECUTOR_H__
 
+#include "sftool.h"
 #include <deque>
 #include <boost/thread.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/lockfree/queue.hpp>
 #include <boost/atomic.hpp>
 
-namespace sinofool {
+SFTOOL_NAMESPACE_START
 
 template<typename T>
 class executor {
@@ -21,6 +22,12 @@ public:
 			_threads.push_back(
 					ThreadPtr(new boost::thread(&executor::_exec, this)));
 		}
+	}
+	~executor() {
+		_running = false;
+		_tasks.clear();
+		_no_task.notify_all();
+		join();
 	}
 	void execute(const boost::shared_ptr<T>& task) {
 		push(task);
@@ -101,6 +108,7 @@ private:
 	}
 
 };
-}
+
+SFTOOL_NAMESPACE_END
 
 #endif
